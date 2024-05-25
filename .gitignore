@@ -1,33 +1,186 @@
-# Gradle files
-.gradle/
-build/
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Semanal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        button {
+            margin: 20px 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Día</th>
+                <th>Actividad</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Lunes</td>
+                <td><input type="text" id="lunes" placeholder="Escriba aquí sus actividades del lunes"></td>
+            </tr>
+            <tr>
+                <td>Martes</td>
+                <td><input type="text" id="martes" placeholder="Escriba aquí sus actividades del martes"></td>
+            </tr>
+            <tr>
+                <td>Miércoles</td>
+                <td><input type="text" id="miercoles" placeholder="Escriba aquí sus actividades del miércoles"></td>
+            </tr>
+            <tr>
+                <td>Jueves</td>
+                <td><input type="text" id="jueves" placeholder="Escriba aquí sus actividades del jueves"></td>
+            </tr>
+            <tr>
+                <td>Viernes</td>
+                <td><input type="text" id="viernes" placeholder="Escriba aquí sus actividades del viernes"></td>
+            </tr>
+            <tr>
+                <td>Sábado</td>
+                <td><input type="text" id="sabado" placeholder="Escriba aquí sus actividades del sábado"></td>
+            </tr>
+            <tr>
+                <td>Domingo</td>
+                <td><input type="text" id="domingo" placeholder="Escriba aquí sus actividades del domingo"></td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="guardarDatos()">Guardar</button>
+    <button onclick="mostrarDatos()">Ver Datos Guardados</button>
 
-# Local configuration file (sdk path, etc)
-local.properties
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h2>Datos Guardados</h2>
+            <p id="datosGuardados"></p>
+        </div>
+    </div>
 
-# Log/OS Files
-*.log
+    <script>
+        // Función para cargar los datos guardados
+        function cargarDatos() {
+            document.getElementById('lunes').value = localStorage.getItem('lunes') || '';
+            document.getElementById('martes').value = localStorage.getItem('martes') || '';
+            document.getElementById('miercoles').value = localStorage.getItem('miercoles') || '';
+            document.getElementById('jueves').value = localStorage.getItem('jueves') || '';
+            document.getElementById('viernes').value = localStorage.getItem('viernes') || '';
+            document.getElementById('sabado').value = localStorage.getItem('sabado') || '';
+            document.getElementById('domingo').value = localStorage.getItem('domingo') || '';
+        }
 
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.apk
-output.json
+        // Función para guardar los datos en LocalStorage
+        function guardarDatos() {
+            localStorage.setItem('lunes', document.getElementById('lunes').value);
+            localStorage.setItem('martes', document.getElementById('martes').value);
+            localStorage.setItem('miercoles', document.getElementById('miercoles').value);
+            localStorage.setItem('jueves', document.getElementById('jueves').value);
+            localStorage.setItem('viernes', document.getElementById('viernes').value);
+            localStorage.setItem('sabado', document.getElementById('sabado').value);
+            localStorage.setItem('domingo', document.getElementById('domingo').value);
+            alert('Datos guardados exitosamente!');
+        }
 
-# IntelliJ
-*.iml
-.idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
+        // Función para mostrar los datos guardados en el modal
+        function mostrarDatos() {
+            const datos = `
+                <strong>Lunes:</strong> ${localStorage.getItem('lunes') || 'No hay datos'}<br>
+                <strong>Martes:</strong> ${localStorage.getItem('martes') || 'No hay datos'}<br>
+                <strong>Miércoles:</strong> ${localStorage.getItem('miercoles') || 'No hay datos'}<br>
+                <strong>Jueves:</strong> ${localStorage.getItem('jueves') || 'No hay datos'}<br>
+                <strong>Viernes:</strong> ${localStorage.getItem('viernes') || 'No hay datos'}<br>
+                <strong>Sábado:</strong> ${localStorage.getItem('sabado') || 'No hay datos'}<br>
+                <strong>Domingo:</strong> ${localStorage.getItem('domingo') || 'No hay datos'}
+            `;
+            document.getElementById('datosGuardados').innerHTML = datos;
+            document.getElementById('modal').style.display = 'block';
+        }
 
-# Keystore files
-*.jks
-*.keystore
+        // Función para cerrar el modal
+        function cerrarModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
-# Android Profiling
-*.hprof
+        // Cargar los datos al cargar la página
+        window.onload = cargarDatos;
+    </script>
+</body>
+</html>
